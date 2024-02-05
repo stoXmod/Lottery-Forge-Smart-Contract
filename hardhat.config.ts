@@ -1,5 +1,5 @@
 import "@nomiclabs/hardhat-ethers";
-import '@nomiclabs/hardhat-waffle';
+import "@nomiclabs/hardhat-waffle";
 import '@typechain/hardhat';
 import * as dotenv from 'dotenv';
 import {HardhatUserConfig} from 'hardhat/config';
@@ -11,8 +11,11 @@ const {
 } = process.env;
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "sepolia",
+  defaultNetwork: "localhost",
   networks: {
+    localhost: {
+      url: 'http://localhost:8545'
+    },
     hardhat: {
     },
     sepolia: {

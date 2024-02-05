@@ -7,12 +7,19 @@ contract Lottery {
     uint256 public entryFee;
     uint256 public lotteryEnd;
     bool public lotteryActive;
+    address payable public winner;
+    uint256 public prizeAmount;
+
+    event ParticipantEntered(address participant);
+    event LotteryEnded(address winner, uint256 prizeAmount);
+    event PrizeTransferred(bool success, uint256 amount);
 
     // constructor initialize the contract with entry fee,lottery end time and owner
-    constructor(uint256 _entryFeeWei, uint256 _lotteryEnd) {
+    constructor(uint256 _entryFeeWei, uint256 _lotteryEnd, uint256 _prizeAmount) {
         owner = msg.sender;
         entryFee = _entryFeeWei;
         lotteryEnd = block.timestamp + _lotteryEnd;
+        prizeAmount = _prizeAmount;
         lotteryActive = true;
     }
 
@@ -27,6 +34,11 @@ contract Lottery {
     // getter function to get the participants by index for testing purposes
     function getParticipantByIndex(uint256 index) public view returns (address payable) {
         return participants[index];
+    }
+
+   //  get the balance of the contract
+    function getContractBalance() public view returns (uint) {
+        return address(this).balance;
     }
 
     // Function to generate a random winner by hashing various parameters.
@@ -44,20 +56,34 @@ contract Lottery {
         require(msg.sender == owner, "Only the owner can end the lottery");
         require(lotteryActive, "Lottery not active");
         require(block.timestamp >= lotteryEnd, "Lottery still ongoing");
+        require(address(this).balance >= prizeAmount, "Insufficient balance to pay the prize");
 
-        address payable winner = generateRandomWinner();
-        winner.transfer(address(this).balance);
+        address payable _winner = generateRandomWinner();
+        winner = _winner;
         lotteryActive = false;
+
+        emit LotteryEnded(winner, prizeAmount);
+
+        (bool sent, ) = winner.call{value: prizeAmount}("");
+        require(sent, "Failed to send prize");
+        emit PrizeTransferred(sent, prizeAmount);
     }
 
     // Function to start a new lottery with a specified entry fee and duration.
-    function startNewLottery(uint256 _entryFee, uint256 _duration) public {
+    function startNewLottery(uint256 _entryFee, uint256 _duration, uint256 _prizeAmount) public {
         require(msg.sender == owner, "Only the owner can start a new lottery");
         require(!lotteryActive, "Previous lottery still active");
 
         entryFee = _entryFee;
         lotteryEnd = block.timestamp + _duration;
+        prizeAmount = _prizeAmount;
         delete participants;
         lotteryActive = true;
     }
+
+    // Function to receive Ether. msg.data must be empty
+    receive() external payable {}
+
+    // Allow the contract to receive ETH
+    fallback() external payable {}
 }
