@@ -9,9 +9,9 @@ contract Lottery {
     bool public lotteryActive;
 
     // constructor initialize the contract with entry fee,lottery end time and owner
-    constructor(uint256 _entryFee, uint256 _lotteryEnd) {
+    constructor(uint256 _entryFeeWei, uint256 _lotteryEnd) {
         owner = msg.sender;
-        entryFee = _entryFee;
+        entryFee = _entryFeeWei;
         lotteryEnd = block.timestamp + _lotteryEnd;
         lotteryActive = true;
     }
@@ -22,6 +22,11 @@ contract Lottery {
         require(msg.value == entryFee, "Incorrect entry fee");
         require(block.timestamp < lotteryEnd, "Lottery has ended");
         participants.push(payable(msg.sender));
+    }
+
+    // getter function to get the participants by index for testing purposes
+    function getParticipantByIndex(uint256 index) public view returns (address payable) {
+        return participants[index];
     }
 
     // Function to generate a random winner by hashing various parameters.

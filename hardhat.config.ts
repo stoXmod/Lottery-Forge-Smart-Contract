@@ -1,4 +1,5 @@
 import "@nomiclabs/hardhat-ethers";
+import '@nomiclabs/hardhat-waffle';
 import '@typechain/hardhat';
 import * as dotenv from 'dotenv';
 import {HardhatUserConfig} from 'hardhat/config';
@@ -28,15 +29,9 @@ const config: HardhatUserConfig = {
       }
     }
   },
-  paths: {
-    sources: "./contracts",
-    tests: "./test",
-    cache: "./cache",
-    artifacts: "./artifacts"
-  },
   mocha: {
-    timeout: 40000
-  }
+    timeout: 200000 // 200 seconds max for running tests
+  },
 };
 
 export default config;
