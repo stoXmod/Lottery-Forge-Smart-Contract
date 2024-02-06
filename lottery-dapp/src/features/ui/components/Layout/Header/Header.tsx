@@ -2,23 +2,21 @@ import React from 'react';
 
 import {
   Box,
+  Divider,
   Flex,
   HStack,
   IconButton,
-  useDisclosure,
-  useColorModeValue,
-  Stack,
-  Divider,
   Spinner,
+  Stack,
+  Text,
+  useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { IoClose, IoEllipsisVertical } from 'react-icons/io5';
-
-import { LangMenu } from '@/features/i18n/components/LangMenu/LangMenu';
 import { MenuType } from '@/pages/types';
 
 import { MainMenu } from '../MainMenu/MainMenu';
-import { SiteLogo } from '../SiteLogo/SiteLogo';
 import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher';
 
 const ProfileMenu = React.lazy(() =>
@@ -36,7 +34,7 @@ export interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = React.memo(
-  ({ siteName, baseUrl, mainMenuItems }) => {
+  ({  mainMenuItems }) => {
     const { t } = useTranslation('Layout');
     const { isOpen, onOpen, onClose } = useDisclosure();
     const mainMenu = (
@@ -44,7 +42,7 @@ export const Header: React.FC<HeaderProps> = React.memo(
     );
     const toolsMenu = (
       <>
-        <LangMenu />
+        {/*<LangMenu />*/}
         <ThemeSwitcher />
       </>
     );
@@ -59,7 +57,10 @@ export const Header: React.FC<HeaderProps> = React.memo(
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems="center">
-            <SiteLogo siteName={siteName} baseUrl={baseUrl} />
+            {/*<SiteLogo siteName={siteName} baseUrl={baseUrl} />*/}
+            <HStack>
+              <Text fontSize={18} fontWeight={'Bold'}>Lottery dApp with smart contract</Text>
+            </HStack>
             <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
               {mainMenu}
             </HStack>

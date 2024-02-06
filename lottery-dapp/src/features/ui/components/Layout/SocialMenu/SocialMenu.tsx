@@ -48,7 +48,7 @@ export const SocialMenu: React.FC = React.memo(() => {
     <Stack direction="row" spacing={6}>
       <SocialButton
         label="GitHub"
-        href="https://github.com/huseyindeniz/vite-react-dapp-template"
+        href="https://github.com/stoXmod/Lottery-System-Smart-Contract.git"
         key="GitHub"
       >
         <FaGithub />

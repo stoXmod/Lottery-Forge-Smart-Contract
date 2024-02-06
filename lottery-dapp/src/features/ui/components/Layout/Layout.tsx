@@ -5,13 +5,11 @@ import log from 'loglevel';
 import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useLocation, Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { useI18nWatcher } from '@/features/i18n/useI18nWatchers';
 import { usePageLink } from '@/pages/usePageLink';
 import { usePages } from '@/pages/usePages';
-
-import { CookieConsentMessage } from './CookieConsent/CookieConsentMessage';
 import { ErrorFallback } from './ErrorFallback/ErrorFallback';
 import { Footer } from './Footer/Footer';
 import { Header } from './Header/Header';
@@ -62,7 +60,7 @@ export const Layout: React.FC = () => {
               secondaryMenuItems={secondaryMenuItems}
             />
             <ScrollToTopButton />
-            <CookieConsentMessage />
+            {/*<CookieConsentMessage />*/}
           </Box>
         </HelmetProvider>
       </ErrorBoundary>

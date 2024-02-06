@@ -1,12 +1,6 @@
 import React from 'react';
 
-import {
-  Box,
-  Container,
-  Stack,
-  useColorModeValue,
-  Divider,
-} from '@chakra-ui/react';
+import { Box, Container, Stack, useColorModeValue } from '@chakra-ui/react';
 
 export interface FooterViewProps {
   firstRowContent?: React.ReactNode;
@@ -14,7 +8,6 @@ export interface FooterViewProps {
 }
 
 export const FooterView: React.FC<FooterViewProps> = ({
-  firstRowContent,
   secondRowContent,
 }) => {
   return (
@@ -22,21 +15,6 @@ export const FooterView: React.FC<FooterViewProps> = ({
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
     >
-      {firstRowContent ? (
-        <>
-          <Container
-            as={Stack}
-            maxW="6xl"
-            py={4}
-            spacing={4}
-            justify="center"
-            align="center"
-          >
-            {firstRowContent}
-          </Container>
-          <Divider />
-        </>
-      ) : null}
       {secondRowContent ? (
         <Container
           as={Stack}

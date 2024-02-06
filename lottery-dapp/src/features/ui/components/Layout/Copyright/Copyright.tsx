@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { Box, Link, Button, Image, Tooltip } from '@chakra-ui/react';
-
-import reactDappTemplateLogo from '../../../assets/images/react-dapp-template-logo.webp';
+import { Box, Button, Link, Tooltip } from '@chakra-ui/react';
 
 // You can remove or change this section
 export const Copyright: React.FC = React.memo(() => {
@@ -11,15 +9,14 @@ export const Copyright: React.FC = React.memo(() => {
       <Tooltip label="Powered by React dApp Template (Vite) v0.5.2">
         <Button
           as={Link}
-          href="https://github.com/huseyindeniz/vite-react-dapp-template"
+          href="https://nishara.me"
           isExternal
           variant="ghost"
           size="xs"
-          rightIcon={<Image height="20px" src={reactDappTemplateLogo} />}
           color="gray"
           fontWeight="normal"
         >
-          powered by
+          Created with ❤️ by stoXmod
         </Button>
       </Tooltip>
     </Box>
