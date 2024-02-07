@@ -9,7 +9,7 @@ export interface IWalletAccountApi {
   sign(message: string): Promise<void>;
   getAccount(): Promise<AccountType | null>;
   isDomainNameSupported(chainId: number | null): Promise<boolean>;
-  getDomainName(): Promise<string | null | undefined>;
+  // getDomainName(): Promise<string | null | undefined>;
   listenAccountChange(): EventChannel<string[]> | undefined;
   handleAccountChange(): Promise<void>;
   reset(): Promise<void>;

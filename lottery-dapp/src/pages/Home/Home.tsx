@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Box, Button, Container, Heading, Stack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
 import { PageMeta } from '@/features/ui/components/PageMeta/PageMeta';
+import { useWalletAuthentication } from '@/features/wallet/hooks/useWalletAuthentication.ts';
+import { LotteryAPI } from '@/services/Lottery/LotteryAPI.ts';
+import { EthersWalletAPI } from '@/services/Ethers/WalletAPI/EthersWalletAPI.ts';
 
 export const HomePage: React.FC = () => {
   const { t } = useTranslation('PageHome');
@@ -11,6 +14,13 @@ export const HomePage: React.FC = () => {
   const description: string = t(
     'Welcome to the lottery app. Buy tickets and win big!'
   );
+  const { isAuthenticated } = useWalletAuthentication();
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const lotteryInstance = LotteryAPI.getInstance(EthersWalletAPI.getInstance().getProvider())
+    lotteryInstance.checkIsLotteryActive().then((res)=> console.log(res))
+  }, [isAuthenticated]);
 
   return (
     <>

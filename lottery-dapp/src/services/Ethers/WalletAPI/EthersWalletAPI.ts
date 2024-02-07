@@ -1,17 +1,10 @@
 import { SignatureLike } from '@ethersproject/bytes';
-import { Contract, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import log from 'loglevel';
 import { eventChannel, EventChannel } from 'redux-saga';
-
-import { AvalancheChain } from '../../../features/wallet/chains/avalanche';
-import { EthereumMainnetChain } from '../../../features/wallet/chains/ethereum';
-import {
-  DISABLE_WALLET_SIGN,
-  SUPPORTED_NETWORKS,
-} from '../../../features/wallet/config';
-import { AccountType } from '../../../features/wallet/models/account/types/Account';
-import { IWalletAPI } from '../../../features/wallet/models/IWalletAPI';
-import { AvvyAPI } from '../../Avvy/AvvyAPI';
+import { DISABLE_WALLET_SIGN, SUPPORTED_NETWORKS } from '@/features/wallet/config.ts';
+import { AccountType } from '@/features/wallet/models/account/types/Account.ts';
+import { IWalletAPI } from '@/features/wallet/models/IWalletAPI.ts';
 
 enum MetamaskRPCErrors {
   ACTION_REJECTED = 'ACTION_REJECTED',
@@ -211,17 +204,17 @@ export class EthersWalletAPI implements IWalletAPI {
     return result;
   };
 
-  public getDomainName = async () => {
-    log.debug(this._network?.chainId);
-    if (this._provider && this._network && this._signerAddress) {
-      if (this._network.chainId === EthereumMainnetChain.chainId) {
-        return await this._provider.lookupAddress(this._signerAddress);
-      } else if (this._network.chainId === AvalancheChain.chainId) {
-        const avvyApi = AvvyAPI.getInstance(this._provider);
-        return avvyApi.addressToDomain(this._signerAddress);
-      }
-    }
-  };
+  // public getDomainName = async () => {
+  //   log.debug(this._network?.chainId);
+  //   if (this._provider && this._network && this._signerAddress) {
+  //     if (this._network.chainId === EthereumMainnetChain.chainId) {
+  //       return await this._provider.lookupAddress(this._signerAddress);
+  //     } else if (this._network.chainId === AvalancheChain.chainId) {
+  //       const avvyApi = LotteryAPI.getInstance(this._provider);
+  //       return avvyApi.addressToDomain(this._signerAddress);
+  //     }
+  //   }
+  // };
 
   // reset
   public reset = async () => {
