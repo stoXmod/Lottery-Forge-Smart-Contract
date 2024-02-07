@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { WalletProtectionWarning } from "../components/WalletProtectionWarning/WalletProtectionWarning";
-import { useWalletAuthentication } from "../hooks/useWalletAuthentication";
+import { WalletProtectionWarning } from '../components/WalletProtectionWarning/WalletProtectionWarning';
+import { useWalletAuthentication } from '../hooks/useWalletAuthentication';
 
 export const withWalletProtection = (
-  ChildWithProps: React.ComponentType<unknown | string>,
+  ChildWithProps: React.ComponentType<any | string>,
   CustomWarning: React.ReactElement | undefined = undefined
 ) => {
   const WithProtection: React.FC = () => {

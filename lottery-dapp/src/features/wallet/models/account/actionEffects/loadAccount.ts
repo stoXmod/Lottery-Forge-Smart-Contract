@@ -1,12 +1,11 @@
 import { put, call } from 'redux-saga/effects';
 
-import { IWalletAccountApi } from '@/services/interfaces/IWalletAccountApi';
-
 import { SlowDown } from '../../../utils';
 import * as networkActions from '../../network/actions';
 import * as walletStateSliceActions from '../../slice';
 import { LoadingStatusType } from '../../types/LoadingStatus';
 import { WalletState } from '../../types/WalletState';
+import { IWalletAccountApi } from '../IWalletAccountApi';
 import * as slicesActions from '../slice';
 import { AccountLoadState } from '../types/AccountLoadState';
 
@@ -38,15 +37,16 @@ export function* HandleStateAccountRequested(
     isUnlocked = yield call(walletAccountApi.isUnlocked);
   } catch (error) {
     isUnlocked = false;
-  }
-  if (isUnlocked) {
-    yield put(
-      slicesActions.setAccountLoadState(AccountLoadState.ACCOUNT_LOADED)
-    );
-    return true;
-  } else {
-    yield call(HandleStateLocked);
-    return false;
+  } finally {
+    if (isUnlocked) {
+      yield put(
+        slicesActions.setAccountLoadState(AccountLoadState.ACCOUNT_LOADED)
+      );
+      return true;
+    } else {
+      yield call(HandleStateLocked);
+      return false;
+    }
   }
 }
 

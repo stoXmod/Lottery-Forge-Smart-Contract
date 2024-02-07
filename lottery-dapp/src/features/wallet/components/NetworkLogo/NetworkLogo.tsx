@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Image } from '@chakra-ui/react';
+import React from 'react';
 
 import imageEthereumMainnet from '../../assets/images/chains/1.webp';
 import imageGanache from '../../assets/images/chains/1337.webp';

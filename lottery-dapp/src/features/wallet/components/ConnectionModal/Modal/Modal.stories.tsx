@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { composeStories } from '@storybook/react';
 
-import * as checkAccountStories from '../CheckAccount/CheckAccount.stories';
-import * as checkNetworkStories from '../CheckNetwork/CheckNetwork.stories';
-import * as checkSignStories from '../CheckSign/CheckSign.stories';
-import * as checkWalletStories from '../CheckWallet/CheckWallet.stories';
+import * as checkAccountStories from '../Steps/CheckAccount.stories';
+import * as checkNetworkStories from '../Steps/CheckNetwork.stories';
+import * as checkSignStories from '../Steps/CheckSign.stories';
+import * as checkWalletStories from '../Steps/CheckWallet.stories';
 
 import { Modal } from './Modal';
 
@@ -17,12 +17,9 @@ type Story = StoryObj<typeof Modal>;
 
 const {
   CheckWalletIdle,
-  DetectingWallets,
-  WalletDetectionFailed,
-  WaitingSelection,
   InitRequested,
-  NotSupported,
   InitFailed,
+  NotSupported,
   Initialized,
 } = composeStories(checkWalletStories);
 
@@ -31,32 +28,6 @@ export const CheckWalletCheckWalletIdle: Story = {
     isOpen: true,
     activeStep: 0,
     checkWalletContent: <CheckWalletIdle />,
-  },
-};
-
-export const CheckWalletDetectingWallets: Story = {
-  args: {
-    isOpen: true,
-    activeStep: 0,
-    stepState: 'loading',
-    checkWalletContent: <DetectingWallets />,
-  },
-};
-
-export const CheckWalletWalletDetectionFailed: Story = {
-  args: {
-    isOpen: true,
-    activeStep: 0,
-    stepState: 'error',
-    checkWalletContent: <WalletDetectionFailed />,
-  },
-};
-
-export const CheckWalletWaitingSelection: Story = {
-  args: {
-    isOpen: true,
-    activeStep: 0,
-    checkWalletContent: <WaitingSelection />,
   },
 };
 
@@ -69,21 +40,21 @@ export const CheckWalletInitRequested: Story = {
   },
 };
 
-export const CheckWalletNotSupported: Story = {
-  args: {
-    isOpen: true,
-    activeStep: 0,
-    stepState: 'error',
-    checkWalletContent: <NotSupported />,
-  },
-};
-
 export const CheckWalletInitFailed: Story = {
   args: {
     isOpen: true,
     activeStep: 0,
     stepState: 'error',
     checkWalletContent: <InitFailed />,
+  },
+};
+
+export const CheckWalletNotSupported: Story = {
+  args: {
+    isOpen: true,
+    activeStep: 0,
+    stepState: 'error',
+    checkWalletContent: <NotSupported />,
   },
 };
 

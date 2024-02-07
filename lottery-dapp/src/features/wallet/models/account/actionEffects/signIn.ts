@@ -9,9 +9,7 @@ import {
   take,
 } from 'redux-saga/effects';
 
-import { IWalletAccountApi } from '@/services/interfaces/IWalletAccountApi';
-import { RootState } from '@/store/store';
-
+import { RootState } from '../../../../../store/store';
 import { DISABLE_WALLET_SIGN, SIGN_TIMEOUT_IN_SEC } from '../../../config';
 import { SlowDown } from '../../../utils';
 import { connectWallet } from '../../provider/actions';
@@ -19,12 +17,16 @@ import * as walletStateSliceActions from '../../slice';
 import { LoadingStatusType } from '../../types/LoadingStatus';
 import { WalletState } from '../../types/WalletState';
 import * as actions from '../actions';
+import { IWalletAccountApi } from '../IWalletAccountApi';
 import * as slicesActions from '../slice';
 import { AccountType } from '../types/Account';
 import { AccountSignState } from '../types/AccountSignState';
 
 // ACTION EFFECTS
-export function* ActionEffectWaitSignIn() {
+export function* ActionEffectWaitSignIn(
+  walletApi: IWalletAccountApi,
+  action: ReturnType<typeof actions.signIn>
+) {
   yield put(walletStateSliceActions.setLoading(LoadingStatusType.PENDING));
   yield put(walletStateSliceActions.setState(WalletState.CHECKING_SIGN));
   yield call(HandleStateNotSigned);
@@ -94,18 +96,19 @@ export function* HandleStateSignRequested(
       isRejected = true;
     }
     isSigned = false;
-  }
-  if (isSigned) {
-    yield put({ type: actions.announceWalletLoaded.type });
-    yield call(HandleStateSigned, walletSignApi);
-    return true;
-  } else {
-    if (isRejected) {
-      yield call(HandleStateSignRejected);
+  } finally {
+    if (isSigned) {
+      yield put({ type: actions.announceWalletLoaded.type });
+      yield call(HandleStateSigned, walletSignApi);
+      return true;
     } else {
-      yield call(HandleStateSignFailed, 'SIGN_FAILED');
+      if (isRejected) {
+        yield call(HandleStateSignRejected);
+      } else {
+        yield call(HandleStateSignFailed, 'SIGN_FAILED');
+      }
+      return false;
     }
-    return false;
   }
 }
 

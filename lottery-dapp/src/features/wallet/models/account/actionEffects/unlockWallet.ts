@@ -1,15 +1,14 @@
 import log from 'loglevel';
 import { put, call, select } from 'redux-saga/effects';
 
-import { IWalletAccountApi } from '@/services/interfaces/IWalletAccountApi';
-import { IWalletAPI } from '@/services/interfaces/IWalletAPI';
-import { RootState } from '@/store/store';
-
+import { RootState } from '../../../../../store/store';
 import { SlowDown } from '../../../utils';
+import { IWalletAPI } from '../../IWalletAPI';
 import * as walletStateSliceActions from '../../slice';
 import { LoadingStatusType } from '../../types/LoadingStatus';
 import { WalletState } from '../../types/WalletState';
 import * as actions from '../actions';
+import { IWalletAccountApi } from '../IWalletAccountApi';
 import * as slicesActions from '../slice';
 import { AccountLoadState } from '../types/AccountLoadState';
 
@@ -55,9 +54,9 @@ export function* HandleStateUnlockRequested(
     ) {
       isUnlocked = yield call(walletAccountApi.isUnlocked);
     }
-  } catch (error: unknown) {
+  } catch (error: any) {
     log.debug(error);
-    const strError: string = error instanceof Error ? error.message : '';
+    const strError: string = error.message || '';
     if (strError.match(/unlock_rejected/i)) {
       isRejected = true;
     }
@@ -65,21 +64,22 @@ export function* HandleStateUnlockRequested(
       isWaiting = true;
     }
     isUnlocked = false;
-  }
-  if (isUnlocked) {
-    yield put(
-      slicesActions.setAccountLoadState(AccountLoadState.ACCOUNT_LOADED)
-    );
-    return true;
-  } else {
-    if (isRejected) {
-      yield call(HandleStateUnlockRejected);
-    } else if (isWaiting) {
-      yield call(HandleStateUnlockWaiting);
+  } finally {
+    if (isUnlocked) {
+      yield put(
+        slicesActions.setAccountLoadState(AccountLoadState.ACCOUNT_LOADED)
+      );
+      return true;
     } else {
-      yield call(HandleStateUnlockFailed);
+      if (isRejected) {
+        yield call(HandleStateUnlockRejected);
+      } else if (isWaiting) {
+        yield call(HandleStateUnlockWaiting);
+      } else {
+        yield call(HandleStateUnlockFailed);
+      }
+      return false;
     }
-    return false;
   }
 }
 

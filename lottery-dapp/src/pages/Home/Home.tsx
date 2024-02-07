@@ -11,6 +11,7 @@ export const HomePage: React.FC = () => {
   const description: string = t(
     'Welcome to the lottery app. Buy tickets and win big!'
   );
+
   return (
     <>
       <PageMeta title={title} description={description} url="" />

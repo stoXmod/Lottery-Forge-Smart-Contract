@@ -1,4 +1,4 @@
 import lottery from './lottery.contract.json';
 
-export const contractAddress = '0x449EDc4Da467B170c7825AD66434dee29619656E';
+export const contractAddress = '0x93942b2C73eeE68F3839356517A32Fc2F7C96b75';
 export const contract_ABI = lottery.abi;

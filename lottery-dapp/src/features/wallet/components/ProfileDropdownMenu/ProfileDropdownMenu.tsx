@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-
 import { useToast } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import useTypedSelector from '@/hooks/useTypedSelector';
-import { usePageLink } from '@/pages/usePageLink';
-
+import useTypedSelector from '../../../../hooks/useTypedSelector';
+import { usePageLink } from '../../../../pages/usePageLink';
 import { useActions } from '../../hooks/useActions';
 
 import { DropdownMenu } from './DropdownMenu';
@@ -20,9 +18,6 @@ export const ProfileDropdownMenu: React.FC = () => {
   const account = useTypedSelector(state => state.wallet.account.account);
   const currentNetwork = useTypedSelector(
     state => state.wallet.network.network
-  );
-  const connectedWallet = useTypedSelector(
-    state => state.wallet.provider.connectedWallet
   );
 
   const [addressExplorerUrl, setAddressExplorerUrl] = useState<string>('');
@@ -75,7 +70,6 @@ export const ProfileDropdownMenu: React.FC = () => {
       address={account.address}
       ensOrAddressTruncated={ensOrAddressTruncated ?? ''}
       currentNetwork={currentNetwork}
-      connectedWallet={connectedWallet}
       addressExplorerUrl={addressExplorerUrl}
       userPageLink={pageLink('/user')}
       onCopyAddressClicked={onCopyClicked}

@@ -9,8 +9,6 @@ import { HardhatChain } from './chains/hardhat';
 import { PolygonChain } from './chains/polygon';
 import { PolygonMumbaiChain } from './chains/polygonMumbai';
 import { Network } from './models/network/types/Network';
-import { Web3Wallet } from './models/provider/types/Web3Wallet';
-import { Metamask } from './web3Wallets/metamask';
 
 export const SUPPORTED_NETWORKS: Network[] = [
   AvalancheChain,
@@ -24,10 +22,7 @@ export const SUPPORTED_NETWORKS: Network[] = [
   GanacheChain,
   HardhatChain,
 ];
-export const DEFAULT_NETWORK = GanacheChain;
-
-export const SUPPORTED_WALLETS: Web3Wallet[] = [Metamask];
-
+export const DEFAULT_NETWORK = AvalancheChain;
 export const SIGN_TIMEOUT_IN_SEC = 60;
 export const SLOW_DOWN_IN_MS = 1000;
 export const DISABLE_WALLET_SIGN = true;

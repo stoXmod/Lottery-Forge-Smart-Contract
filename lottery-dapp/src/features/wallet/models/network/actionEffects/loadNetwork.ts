@@ -1,8 +1,6 @@
 import { END, EventChannel } from 'redux-saga';
 import { put, call, take, spawn } from 'redux-saga/effects';
 
-import { IWalletNetworkApi } from '@/services/interfaces/IWalletNetworkApi';
-
 import { DISABLE_WALLET_SIGN } from '../../../config';
 import { SlowDown } from '../../../utils';
 import * as accountActions from '../../account/actions';
@@ -10,6 +8,7 @@ import * as connectWallet from '../../provider/actions';
 import * as walletStateSliceActions from '../../slice';
 import { LoadingStatusType } from '../../types/LoadingStatus';
 import { WalletState } from '../../types/WalletState';
+import { IWalletNetworkApi } from '../IWalletNetworkApi';
 import * as slicesActions from '../slice';
 import { Network } from '../types/Network';
 import { NetworkLoadState } from '../types/NetworkLoadState';
@@ -35,6 +34,7 @@ export function* ActionEffectLoadNetwork(walletApi: IWalletNetworkApi) {
 export function* HandleStateNetworkRequested(
   walletNetworkApi: IWalletNetworkApi
 ) {
+  let isSuccessful: boolean = false;
   try {
     yield put(
       slicesActions.setNetworkLoadState(NetworkLoadState.NETWORK_REQUESTED)
@@ -48,8 +48,8 @@ export function* HandleStateNetworkRequested(
     yield put(
       slicesActions.setNetworkLoadState(NetworkLoadState.NETWORK_LOADED)
     );
+    isSuccessful = true;
     yield spawn(handleEventNetworkChanged, walletNetworkApi);
-    return true;
   } catch (error) {
     const errorMessage: string = (error as Error).message;
     if (errorMessage === 'Wrong network') {
@@ -57,7 +57,8 @@ export function* HandleStateNetworkRequested(
     } else {
       yield call(HandleStateNetworkDetectionFailed, errorMessage);
     }
-    return false;
+  } finally {
+    return isSuccessful;
   }
 }
 

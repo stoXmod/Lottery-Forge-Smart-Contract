@@ -1,9 +1,7 @@
+import { useSteps } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
-import { useSteps } from '@chakra-ui/react';
-
-import useTypedSelector from '@/hooks/useTypedSelector';
-
+import useTypedSelector from '../../../../hooks/useTypedSelector';
 import { SUPPORTED_NETWORKS, DEFAULT_NETWORK } from '../../config';
 import { useActions } from '../../hooks/useActions';
 import { AccountLoadState } from '../../models/account/types/AccountLoadState';
@@ -12,11 +10,11 @@ import { NetworkLoadState } from '../../models/network/types/NetworkLoadState';
 import { ProviderLoadState } from '../../models/provider/types/ProviderLoadState';
 import { WalletState } from '../../models/types/WalletState';
 
-import { CheckAccount } from './CheckAccount/CheckAccount';
-import { CheckNetwork } from './CheckNetwork/CheckNetwork';
-import { CheckSign } from './CheckSign/CheckSign';
-import { CheckWallet } from './CheckWallet/CheckWallet';
 import { Modal } from './Modal/Modal';
+import { CheckAccount } from './Steps/CheckAccount';
+import { CheckNetwork } from './Steps/CheckNetwork';
+import { CheckSign } from './Steps/CheckSign';
+import { CheckWallet } from './Steps/CheckWallet';
 
 export interface ConnectionModalProps {
   onDisconnect: () => void;
@@ -30,9 +28,6 @@ export const ConnectionModal: React.FC<ConnectionModalProps> = ({
   const error = useTypedSelector(state => state.wallet.state.error);
   const providerLoadState = useTypedSelector(
     state => state.wallet.provider.providerLoadState
-  );
-  const installedWallets = useTypedSelector(
-    state => state.wallet.provider.installedWallets
   );
   const accountLoadState = useTypedSelector(
     state => state.wallet.account.accountLoadState
@@ -73,15 +68,12 @@ export const ConnectionModal: React.FC<ConnectionModalProps> = ({
   useEffect(() => {
     switch (providerLoadState) {
       case ProviderLoadState.IDLE:
-      case ProviderLoadState.WAITING_WALLET_SELECTION:
       case ProviderLoadState.INITIALIZED:
         setStepState(undefined);
         break;
-      case ProviderLoadState.DETECTING_WALLETS:
       case ProviderLoadState.REQUESTED:
         setStepState('loading');
         break;
-      case ProviderLoadState.WALLET_DEDECTION_FAILED:
       case ProviderLoadState.FAILED:
       case ProviderLoadState.NOT_SUPPORTED:
         setStepState('error');
@@ -184,10 +176,7 @@ export const ConnectionModal: React.FC<ConnectionModalProps> = ({
       checkWalletContent={
         <CheckWallet
           stepState={providerLoadState}
-          installedWallets={installedWallets}
           onCancel={handleDisconnect}
-          onWalletSelect={actions.selectWallet}
-          errorMessage={error}
         />
       }
       checkAccountContent={

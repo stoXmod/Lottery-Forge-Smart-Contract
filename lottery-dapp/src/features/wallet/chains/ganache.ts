@@ -8,7 +8,7 @@ export const GanacheChain: Network = {
     symbol: 'ETH',
     decimals: 18,
   },
-  rpcUrls: ['http://localhost:8545'],
+  rpcUrls: ['http://localhost:7545'],
   blockExplorerUrls: [],
   addressExplorerUrl: '',
   transactionExplorerUrl: '',

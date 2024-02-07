@@ -7,7 +7,7 @@ import {
   unlockWallet,
 } from '../models/account/actions';
 import { latestBlock, switchNetwork } from '../models/network/actions';
-import { connectWallet, selectWallet } from '../models/provider/actions';
+import { connectWallet } from '../models/provider/actions';
 
 export const useActions = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,6 @@ export const useActions = () => {
   return bindActionCreators(
     {
       connectWallet,
-      selectWallet,
       switchNetwork,
       unlockWallet,
       signIn,

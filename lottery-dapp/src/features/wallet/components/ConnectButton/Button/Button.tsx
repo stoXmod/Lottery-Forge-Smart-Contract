@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { Button as ChakraButton } from '@chakra-ui/react';
+import { FaWallet } from '@react-icons/all-files/fa/FaWallet';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaWallet } from 'react-icons/fa';
 
 export interface ButtonProps {
   onClick: () => void;
