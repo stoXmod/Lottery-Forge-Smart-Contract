@@ -12,7 +12,7 @@
   top: 0;
   left: 0;
   position: absolute;
-  box-shadow: inset -0px 0px 40px -10px #eef;
+  box-shadow: none !important;
 }
 
 .loading {

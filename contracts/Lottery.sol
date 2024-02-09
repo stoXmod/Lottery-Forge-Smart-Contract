@@ -45,7 +45,6 @@ contract Lottery {
     function generateRandomWinner() private view returns (address payable) {
         require(msg.sender == owner, "Only the owner can pick a winner");
         require(lotteryActive, "Lottery not active");
-        require(block.timestamp >= lotteryEnd, "Lottery still ongoing");
 
         uint index = uint(keccak256(abi.encodePacked(block.timestamp, block.difficulty, participants.length))) % participants.length;
         return participants[index];
@@ -55,8 +54,8 @@ contract Lottery {
     function endLottery() public {
         require(msg.sender == owner, "Only the owner can end the lottery");
         require(lotteryActive, "Lottery not active");
-        require(block.timestamp >= lotteryEnd, "Lottery still ongoing");
         require(address(this).balance >= prizeAmount, "Insufficient balance to pay the prize");
+        require(participants.length > 0, "No participants in the lottery");
 
         address payable _winner = generateRandomWinner();
         winner = _winner;
